@@ -15,3 +15,7 @@ add_test(NAME signal COMMAND test_signal)
 add_executable(test_node tests/test_node.cpp)
 target_include_directories(test_node PRIVATE include)
 add_test(NAME node COMMAND test_node)
+
+add_executable(test_network tests/test_network.cpp src/AigNetwork.cpp)
+target_include_directories(test_network PRIVATE include)
+add_test(NAME network COMMAND test_network)

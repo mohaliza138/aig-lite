@@ -36,6 +36,12 @@ public:
 
     bool simulate(uint64_t input_pattern) const;
 
+    void remove_node(uint32_t node_id);
+
+    // Reassigns contiguous IDs in topological order, drops dead nodes, and rebuilds all internal structures.
+    // Invalidates all external node IDs.
+    void compact();
+
 private:
     static uint64_t make_key(Signal lo, Signal hi);
     uint32_t alloc_node(Signal f0, Signal f1);
@@ -44,6 +50,10 @@ private:
     std::vector<uint32_t> pi_indices_;
     std::vector<Signal> pos_;
     std::unordered_map<uint64_t, uint32_t> hash_;
+    // next_id_ keeps the ID of next node being added. My implementation ensures any node to have bigger ID
+    // than its fanins. This property, leads to having a topological sorted list of nodes, which has its own
+    // benefits for traversals.
+    uint32_t next_id_;
 };
 
 }

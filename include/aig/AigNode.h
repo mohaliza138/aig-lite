@@ -12,8 +12,10 @@ struct AigNode {
     uint32_t level;
     // Count of nodes that reference this one.
     uint32_t ref_count;
+    bool dead;
+
     AigNode(Signal f0, Signal f1)
-        : fanin0(f0), fanin1(f1), level(0), ref_count(0) {}
+        : fanin0(f0), fanin1(f1), level(0), ref_count(0), dead(false) {}
 };
 
 }
