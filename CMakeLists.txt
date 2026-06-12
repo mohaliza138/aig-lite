@@ -19,3 +19,7 @@ add_test(NAME node COMMAND test_node)
 add_executable(test_network tests/test_network.cpp src/AigNetwork.cpp)
 target_include_directories(test_network PRIVATE include)
 add_test(NAME network COMMAND test_network)
+
+add_executable(test_io tests/test_io.cpp src/io/TruthTableReader.cpp src/AigNetwork.cpp)
+target_include_directories(test_io PRIVATE include)
+add_test(NAME io COMMAND test_io)
