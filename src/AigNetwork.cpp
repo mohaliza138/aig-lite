@@ -61,7 +61,19 @@ void AigNetwork::remove_node(uint32_t node_id) {
 }
 
 void AigNetwork::compact() {
-    // Assign new contiguous IDs in topological order (nodes_ is already ordered).
+    // Mark every node reachable from the current PO list.
+    std::vector<bool> reachable(nodes_.size(), false);
+    reachable[0] = true;
+    for (uint32_t id : pi_indices_) reachable[id] = true;
+
+    // Traverse in reverse topological order.
+    for (const Signal& po : pos_) reachable[po.node_id()] = true;
+    for (uint32_t id = nodes_.size(); id-- > 1;) {
+        if (!reachable[id] || !is_and(id)) continue;
+        reachable[nodes_[id].fanin0.node_id()] = true;
+        reachable[nodes_[id].fanin1.node_id()] = true;
+    }
+
     std::vector<uint32_t> remap(nodes_.size(), 0);
     std::vector<AigNode> new_nodes;
     // Add the reserved constant 0.
@@ -69,7 +81,7 @@ void AigNetwork::compact() {
 
     uint32_t new_id = 1;
     for (uint32_t old_id = 1; old_id < nodes_.size(); ++old_id) {
-        if (nodes_[old_id].dead) continue;
+        if (!reachable[old_id] || nodes_[old_id].dead) continue;
         remap[old_id] = new_id++;
         new_nodes.push_back(nodes_[old_id]);
     }
