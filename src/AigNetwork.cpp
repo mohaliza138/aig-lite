@@ -43,6 +43,10 @@ Signal AigNetwork::get_or_create_and(Signal a, Signal b) {
     return Signal(id, false);
 }
 
+void AigNetwork::reset_pos() {
+    pos_.clear();
+}
+
 void AigNetwork::remove_node(uint32_t node_id) {
     assert(is_and(node_id) && "remove_node: node_id is not an AND node");
     AigNode& n = nodes_[node_id];

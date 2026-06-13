@@ -38,6 +38,8 @@ public:
 
     void remove_node(uint32_t node_id);
 
+    void reset_pos();
+
     // Reassigns contiguous IDs in topological order, drops dead nodes, and rebuilds all internal structures.
     // Invalidates all external node IDs.
     void compact();
