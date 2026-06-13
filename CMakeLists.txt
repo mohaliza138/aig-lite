@@ -20,6 +20,15 @@ add_executable(test_network tests/test_network.cpp src/AigNetwork.cpp)
 target_include_directories(test_network PRIVATE include)
 add_test(NAME network COMMAND test_network)
 
+add_executable(test_verification
+    tests/test_verification.cpp
+    src/Verification.cpp
+    src/io/AigerWriter.cpp
+    src/io/TruthTableReader.cpp
+    src/AigNetwork.cpp)
+target_include_directories(test_verification PRIVATE include)
+add_test(NAME verification COMMAND test_verification)
+
 add_executable(test_io
     tests/test_io.cpp
     src/io/TruthTableReader.cpp
