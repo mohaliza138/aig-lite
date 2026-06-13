@@ -55,5 +55,35 @@ int main() {
         assert(aig::verify_equivalent(orig, net));
     }
 
+    {
+        AigNetwork net;
+        Signal a = net.create_pi();
+        Signal b = net.create_pi();
+        Signal c = net.create_pi();
+        Signal ab = net.get_or_create_and(a, b);
+        Signal ac = net.get_or_create_and(a, c);
+        Signal r  = net.get_or_create_and(ab, ac);
+        net.create_po(r);
+        assert(net.node_count() == 3);
+
+        AigNetwork orig = net;
+        uint32_t eliminated = aig::rewrite(net);
+        assert(eliminated > 0);
+        assert(net.node_count() < 3);
+        assert(aig::verify_equivalent(orig, net));
+    }
+
+    {
+        AigNetwork net;
+        Signal a = net.create_pi();
+        Signal b = net.create_pi();
+        net.create_po(net.get_or_create_and(a, b));
+
+        AigNetwork orig = net;
+        uint32_t eliminated = aig::rewrite(net);
+        assert(eliminated == 0);
+        assert(aig::verify_equivalent(orig, net));
+    }
+
     return 0;
 }

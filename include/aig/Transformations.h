@@ -6,4 +6,8 @@ namespace aig {
 // Restructures AND trees to minimize logic depth. Returns the reduction in logic level (0 if no improvement).
 uint32_t balance(AigNetwork& net);
 
+// Local DAG-aware rewriting using algebraic identities and common-divisor extraction. Returns the number of AND nodes
+// eliminated (0 if no improvement).
+uint32_t rewrite(AigNetwork& net);
+
 }

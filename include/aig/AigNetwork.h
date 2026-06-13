@@ -40,6 +40,8 @@ public:
 
     void reset_pos();
 
+    uint32_t next_id() const { return next_id_; }
+
     // Reassigns contiguous IDs in topological order, drops dead nodes, and rebuilds all internal structures.
     // Invalidates all external node IDs.
     void compact();

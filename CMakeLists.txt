@@ -23,6 +23,7 @@ add_test(NAME network COMMAND test_network)
 add_executable(test_transforms
     tests/test_transforms.cpp
     src/transforms/Balance.cpp
+    src/transforms/Rewrite.cpp
     src/Verification.cpp
     src/io/TruthTableReader.cpp
     src/io/AigerWriter.cpp
